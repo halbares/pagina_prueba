@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Datos Curiosos en Diapositivas</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      height: 500px;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    .slider {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+      height: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.95);
+      animation: fadeIn 0.6s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #f1c40f;
+      font-size: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      color: #ecf0f1;
+    }
+
+    th {
+      background-color: rgba(255,255,255,0.2);
+      font-weight: bold;
+    }
+
+    .nav-buttons {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #f1c40f;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #d4ac0d;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="slider-container">
+    <div class="slider" id="slider">
+      <div class="slide">
+        <h2>Datos sobre el Espacio</h2>
+        <table>
+          <tr><th>Dato</th><th>Curiosidad</th></tr>
+          <tr><td>Sol</td><td>Podría albergar 1,3 millones de Tierras</td></tr>
+          <tr><td>Júpiter</td><td>Es tan grande que tiene 79 lunas conocidas</td></tr>
+        </table>
+      </div>
+      <div class="slide">
+        <h2>Animales Sorprendentes</h2>
+        <table>
+          <tr><th>Animal</th><th>Dato Curioso</th></tr>
+          <tr><td>Pulpo</td><td>Tiene tres corazones</td></tr>
+          <tr><td>Camarón mantis</td><td>Golpea con la fuerza de una bala</td></tr>
+        </table>
+      </div>
+      <div class="slide">
+        <h2>Curiosidades de la Historia</h2>
+        <table>
+          <tr><th>Época</th><th>Hecho Curioso</th></tr>
+          <tr><td>Edad Media</td><td>Los tenedores eran considerados herejía</td></tr>
+          <tr><td>Roma</td><td>Los emperadores a veces nombraban caballos como senadores</td></tr>
+        </table>
+      </div>
+      <div class="slide">
+        <h2>Curiosidades del Cuerpo Humano</h2>
+        <table>
+          <tr><th>Parte</th><th>Dato</th></tr>
+          <tr><td>Estómago</td><td>Se renueva cada 3 días</td></tr>
+          <tr><td>Huesos</td><td>Los bebés nacen con más de 300 huesos</td></tr>
+        </table>
+      </div>
+      <div class="slide">
+        <h2>Tecnología</h2>
+        <table>
+          <tr><th>Invento</th><th>Curiosidad</th></tr>
+          <tr><td>Wi-Fi</td><td>Descubierto accidentalmente buscando agujeros negros</td></tr>
+          <tr><td>Teléfono</td><td>Bell nunca llamó a su esposa, era sorda</td></tr>
+        </table>
+      </div>
+      <div class="slide">
+        <h2>Cultura Pop</h2>
+        <table>
+          <tr><th>Tema</th><th>Dato Curioso</th></tr>
+          <tr><td>Mario Bros</td><td>Era carpintero antes que fontanero</td></tr>
+          <tr><td>Los Simpsons</td><td>Tienen más de 700 episodios</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="changeSlide(-1)">⟵</button>
+      <button onclick="changeSlide(1)">⟶</button>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+
+    function changeSlide(direction) {
+      const slider = document.getElementById("slider");
+      const totalSlides = slider.children.length;
+
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      // Forzar reanimación de entrada (opcional, solo visual)
+      const slides = document.querySelectorAll(".slide");
+      slides.forEach(slide => {
+        slide.style.animation = "none";
+        slide.offsetHeight; // hack para reiniciar animación
+        slide.style.animation = "";
+        slide.style.animation = "fadeIn 0.6s forwards";
+      });
+    }
+  </script>
+</body>
+</html>
